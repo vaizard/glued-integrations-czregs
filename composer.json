@@ -39,7 +39,7 @@
     "symfony/yaml": "^5",
     "thingengineer/mysqli-database-class": "dev-master#42116651a88b57b03fd967bc57dd38f5094565d9",
     "vaizard/glued-lib": "dev-main",
-    "vaizard/glued-intagrations": "dev-main",
+    "vaizard/glued-integrations": "dev-main",
     "zeuxisoo/slim-whoops": "^0.7"
   },
   "require-dev": {
