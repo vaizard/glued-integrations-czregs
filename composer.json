@@ -1,5 +1,5 @@
 {
-  "name": "vaizard/glued-int-fio",
+  "name": "vaizard/glued-integrations-fio",
   "description": "A fio.cz integration component.",
   "license": "MIT",
   "authors": [
@@ -30,7 +30,7 @@
     "php-di/php-di": "^6",
     "php-http/message": "^1",
     "phpfastcache/phpfastcache": "^9",
-    "ramsey/uuid": "^4.2",
+    "ramsey/uuid": "^4",
     "respect/validation": "^2",
     "sabre/event": "^5",
     "selective/transformer": "^1",
@@ -39,6 +39,7 @@
     "symfony/yaml": "^5",
     "thingengineer/mysqli-database-class": "dev-master#42116651a88b57b03fd967bc57dd38f5094565d9",
     "vaizard/glued-lib": "dev-main",
+    "vaizard/glued-intagrations": "dev-main",
     "zeuxisoo/slim-whoops": "^0.7"
   },
   "require-dev": {
