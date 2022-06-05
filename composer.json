@@ -1,6 +1,6 @@
 {
-  "name": "vaizard/glued",
-  "description": "A Slim4 router/frontend for API backends. Uses PHP-DI, Nyholm PSR7 and Twig.",
+  "name": "vaizard/glued-int-fio",
+  "description": "A fio.cz integration component.",
   "license": "MIT",
   "authors": [
     {
@@ -38,6 +38,7 @@
     "slim/slim": "^4",
     "symfony/yaml": "^5",
     "thingengineer/mysqli-database-class": "dev-master#42116651a88b57b03fd967bc57dd38f5094565d9",
+    "vaizard/glued-int-fio": "dev-main",
     "vaizard/glued-lib": "dev-main",
     "zeuxisoo/slim-whoops": "^0.7"
   },
