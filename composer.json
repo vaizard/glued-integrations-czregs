@@ -22,7 +22,7 @@
     "ext-readline": "*",
     "ext-soap": "*",
     "ext-xml": "*",
-    "grasmash/yaml-expander": "^3.0",
+    "grasmash/yaml-expander": "^3",
     "league/flysystem": "^3",
     "monolog/monolog": "^2",
     "nyholm/psr7": "^1",
@@ -69,29 +69,27 @@
     }
   },
   "scripts": {
-    "post-install-cmd": [],
+    "post-install-cmd": [
+      "composer configure || echo \"[FAIL] Failed to configure glued. Please make sure all env variables are set. Rerun composer configure.\"",
+      "echo \"Run `composer nginx` manually to pick restart this microservice\""
+    ],
     "post-update-cmd": [
-      "test -n \"$GLUED_IN_DOCKER\" || composer configure < /dev/tty"
+      "composer configure || echo \"[FAIL] Failed to configure glued. Please make sure all env variables are set. Rerun composer configure.\"",
+      "echo \"Run `composer nginx` manually to pick restart this microservice\""
     ],
     "backup": [
-      "[[ -f .env ]] && export $(echo $(cat .env | sed 's/#.*//g'| xargs) | envsubst) || true",
-      "mkdir -p \"${datapath}/$(basename `pwd`)/backups\"",
-      "mysqldump --lock-tables=false --single-transaction --no-data glued >> \"${datapath}/$(basename `pwd`)/backups/composer-mysql-$(date +'%Y%m%dT%H%M%S')-schema.sql\"",
-      "mysqldump --lock-tables=false --single-transaction glued >> \"${datapath}/$(basename `pwd`)/backups/composer-mysql-$(date +'%Y%m%dT%H%M%S')-full.sql\""
+      "vendor/vaizard/glued-lib/src/Scripts/backup.sh"
     ],
     "configure": [
-      "Glued\\Config\\ComposerHooks::configTool",
-      "composer migrate"
+      "vendor/vaizard/glued-lib/src/Scripts/initpaths.sh",
+      "Glued\\Lib\\ComposerHooks::configTool",
+      "vendor/vaizard/glued-lib/src/Scripts/cacheroutes.sh"
     ],
     "migrate": [
-      "if [ -f .env ]; then export $(echo $(cat .env | sed 's/#.*//g'| xargs) | envsubst) || true; fi",
-      "mkdir -p ${datapath}/$(basename `pwd`)/install",
-      "for dir in $(find ./glued/Config/Migrations -not -empty -type d) ; do dbmate -d \"${dir}\" -s \"${datapath}/$(basename `pwd`)/install\" migrate; done;"
+      "vendor/vaizard/glued-lib/src/Scripts/migrate.sh"
     ],
     "nginx": [
-      "cp -r glued/Config/Nginx/* /etc/nginx",
-      "ln -s /etc/nginx/sites-available/$(basename `pwd`) /etc/nginx/sites-enabled",
-      "systemctl reload nginx"
+      "vendor/vaizard/glued-lib/src/Scripts/nginx.sh"
     ],
     "start": "php -S localhost:8080 -t public"
   }
