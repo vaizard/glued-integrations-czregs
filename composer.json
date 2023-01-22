@@ -1,6 +1,6 @@
 {
-  "name": "vaizard/glued-integrations-fio",
-  "description": "A fio.cz integration component.",
+  "name": "vaizard/glued-integrations-czregs",
+  "description": "An Czech republic registries integration component.",
   "license": "MIT",
   "authors": [
     {
@@ -23,6 +23,8 @@
     "ext-soap": "*",
     "ext-xml": "*",
     "grasmash/yaml-expander": "^3",
+    "guzzlehttp/psr7": "^1",
+    "http-interop/http-factory-guzzle": "^1",
     "league/flysystem": "^3",
     "monolog/monolog": "^2",
     "nyholm/psr7": "^1",
@@ -36,14 +38,17 @@
     "selective/transformer": "^1",
     "slim/http": "^1",
     "slim/slim": "^4",
+    "symfony/config": "^5",
     "symfony/yaml": "^5",
     "thingengineer/mysqli-database-class": "dev-master#42116651a88b57b03fd967bc57dd38f5094565d9",
-    "vaizard/glued-lib": "dev-main",
     "vaizard/glued-integrations": "dev-main",
-    "zeuxisoo/slim-whoops": "^0.7"
-  },
-  "require-dev": {
-    "ergebnis/composer-normalize": "^2"
+    "vaizard/glued-lib": "dev-main",
+    "vlucas/phpdotenv": "^5",
+    "zeuxisoo/slim-whoops": "^0.7",
+    "guzzlehttp/guzzle": "^7.5",
+    "laminas/laminas-xml2json": "^3.3",
+    "ergebnis/composer-normalize": "^2.29",
+    "league/csv": "^9.8"
   },
   "suggest": {
     "ext-xdebug": "For dev only"
@@ -70,10 +75,12 @@
   },
   "scripts": {
     "post-install-cmd": [
+      "composer migrate",
       "composer configure || echo \"[FAIL] Failed to configure glued. Please make sure all env variables are set. Rerun composer configure.\"",
       "echo \"Run `composer nginx` manually to pick restart this microservice\""
     ],
     "post-update-cmd": [
+      "composer migrate",
       "composer configure || echo \"[FAIL] Failed to configure glued. Please make sure all env variables are set. Rerun composer configure.\"",
       "echo \"Run `composer nginx` manually to pick restart this microservice\""
     ],
@@ -85,11 +92,19 @@
       "Glued\\Lib\\ComposerHooks::configTool",
       "vendor/vaizard/glued-lib/src/Scripts/cacheroutes.sh"
     ],
+    "genkey": [
+      "Glued\\Lib\\ComposerHooks::genKey"
+    ],
     "migrate": [
       "vendor/vaizard/glued-lib/src/Scripts/migrate.sh"
     ],
     "nginx": [
-      "vendor/vaizard/glued-lib/src/Scripts/nginx.sh"
+      "vendor/vaizard/glued-lib/src/Scripts/nginx.sh",
+      "Glued\\Lib\\ComposerHooks::generateNginx",
+      "vendor/vaizard/glued-lib/src/Scripts/nginx-reload.sh"
+    ],
+    "settings": [
+      "Glued\\Lib\\ComposerHooks::PrintSettings"
     ],
     "start": "php -S localhost:8080 -t public"
   }

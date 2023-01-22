@@ -1,0 +1,58 @@
+---
+routes:
+
+    #########################################################
+    # integrations_czregs / NODES                             #
+    #########################################################
+
+    be_integrations_czregs:
+        service:    integrations_czregs
+        path:       /api/integrations/czregs
+        pattern:    /api/integrations/czregs
+        label:      integrations_czregs
+        dscr:       A routegroup, no methods here.
+
+    #########################################################
+    # integrations_czregs / HEALTH                            #
+    #########################################################
+
+    be_integrations_czregs_health_v1:
+        pattern:    ${routes.be_integrations_czregs.path}/health/v1
+        path:       ${routes.be_integrations_czregs.path}/health/v1
+        label:      integrations_czregs health
+        dscr:       A healthcheck endpoint for the microservice.
+        service:    integrations_czregs
+        provides:   health
+        methods:
+            get:    Glued\Controllers\ServiceController:health
+
+    #########################################################
+    # integrations_czregs / stuff                             #
+    #########################################################
+
+    be_integrations_czregs_v1:
+        pattern:    ${routes.be_integrations_czregs.path}/v1
+        path:       ${routes.be_integrations_czregs.path}/v1
+        label:      Integration / czregs search
+        dscr:       People-friendly czregs endpoint.
+        service:    integrations_czregs
+        methods:
+            get:    Glued\Controllers\ServiceController:czregs_r1
+
+    be_integrations_czregs_dl_v1:
+        pattern:    ${routes.be_integrations_czregs.path}/dl/v1
+        path:       ${routes.be_integrations_czregs.path}/dl/v1
+        label:      Integration / czregs refresh db
+        dscr:       People-friendly czregs endpoint.
+        service:    integrations_czregs
+        methods:
+            get:    Glued\Controllers\ServiceController:dl_r1
+
+    be_integrations_czregs_parse_v1:
+        pattern:    ${routes.be_integrations_czregs.path}/parse/v1
+        path:       ${routes.be_integrations_czregs.path}/parse/v1
+        label:      Integration / czregs refresh db
+        dscr:       People-friendly czregs endpoint.
+        service:    integrations_czregs
+        methods:
+            get:    Glued\Controllers\ServiceController:parse_r1
